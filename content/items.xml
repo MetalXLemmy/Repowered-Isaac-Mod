@@ -1,0 +1,12 @@
+<items gfxroot="gfx/items/"version="1">
+  <active cache="" name="Plush Heart" description="Squeeze the love out of it" gfx="collectibles_0001_plushheart.png" maxcharges="2" cooldown="2"/>
+  <active cache="" name="Ink Eraser" description="According to legends" gfx="collectibles_0002_inkeraser.png"/>
+  <active cache="" name="Super Eraser" description="Nope! Not today! Not ever!" gfx="collectibles_0003_supereraser.png"/>
+  <active cache="" name="Chaotic D6" description="Like a D6" gfx="collectibles_0004_chaoticd6.png" maxcharges="8" cooldown="30"/>
+  <active cache="" name="The Blue Pill" description="It lasts 4 hours" gfx="collectibles_0005_thebluepill.png" maxcharges="1" cooldown="15"/>
+  <active cache="" name="Emergency Button" description="Vote them out!" gfx="collectibles_0006_emergencybutton.png" maxcharges="4" cooldown="30"/>
+  <passive cache="" name="Arachnophobia" description="GET THEM AWAY FROM ME!!!" gfx="collectibles_0007_arachnaphobia.png" tags="spider"/>
+  <active cache="" name="Heavy Weight" description="Maybe.. too.. heavy..." gfx="collectibles_0008_heavyweight.png" maxcharges="300" cooldown="2" chargetype="timed"/>
+  <active cache="" name="Dragon Head" description="Burn thy enemies" gfx="collectibles_0009_dragonhead.png" maxcharges="3" cooldown="300"/>
+  <active cache="" name="Kiln" description="Melt your keys" gfx="collectibles_0010_kiln.png" maxcharges="1" cooldown="15"/>
+</items>
