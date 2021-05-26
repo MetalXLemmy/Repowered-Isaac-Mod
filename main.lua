@@ -14,7 +14,7 @@ RepoweredPack.COLLECTIBLE_PLUSH_HEART = Isaac.GetItemIdByName("Plush Heart")
 function RepoweredPack:ActivateItemPlushSqueeze(collectible, RNG, player, flags, activeItemSlot, data)
 	if (player:GetHearts()>Constants.FULL_HEART or (player:GetSoulHearts()>=Constants.HALF_HEART and player:GetHearts()>=Constants.FULL_HEART)) then
 		--Player has enough red health.
-		local rng = math.random() --float between 0.0000... and 1
+		local rng = RNG:RandomFloat() --float between 0.0000... and 1
   
 		player:AnimateHappy() --Thumbs up
 		player:AddHearts(-Constants.FULL_HEART) --Remove a full red heart from Isaacs health (max hearts stay the same) 
