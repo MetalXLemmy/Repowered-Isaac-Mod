@@ -2,7 +2,7 @@ local RepoweredPack = RegisterMod("Repowered Pack", 1)
 
 local game = Game()
 
-local Constants <const> = {
+local Constants = {
 		FULL_HEART = 2,
 		HALF_HEART = 1,
 		DEFAULT_COLLECTIBLE = Isaac.GetItemIdByName("Breakfast")
@@ -107,3 +107,114 @@ RepoweredPack:AddCallback(ModCallbacks.MC_POST_RENDER, function()
 	end
 end)
 --Chaotic D6 end
+
+--Arachnophobia start
+RepoweredPack.COLLECTIBLE_ARACHNOPHOBIA = Isaac.GetItemIdByName("Arachnophobia")
+
+function RepoweredPack:PickupArachnophobia
+
+function RepoweredPack:EffectArachnophobia(player)
+    Isaac.DebugString(tostring(player:GetNumBlueSpiders()))
+    local CurrentPool = game:GetItemPool()
+    
+    for k,entity in pairs(entities) do
+      if 	entity.Type == EntityType.ENTITY_PICKUP --checks if entity is pickup
+        and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE --checks if entity is collectible (active or passive)
+        and entity.SubType > 0 --checks if pedestal is not empty
+        and
+      then
+        local newItem = game:GetItemPool():GetCollectible(CurrentPool:GetLastPool() , true, Random(), Constants.DEFAULT_COLLECTIBLE)
+        local pickup = entity:ToPickup() --gets the EntityPickup from the entity "class" to access its methods
+        pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newItem, true) --transforms the existing entity into a new one with the new collectible
+		end
+	end
+end
+
+
+
+RepoweredPack:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, RepoweredPack.EffectArachnophobia)
+
+local function ChangeSpiderEnemiesToFlyEnemies(entity)
+	if entity.Type == EntityType.ENTITY_SPIDER then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_ATTACKFLY, 0)
+    
+	elseif entity.Type == EntityType.ENTITY_BIGSPIDER then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MOTER, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_NEST then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MULLIGAN, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_BABY_LONG_LEGS then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_SWARMER, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_CRAZY_LONG_LEGS then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_FULL_FLY, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_SPIDER_L2 then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_FLY_L2, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_BLISTER then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_BOOMFLY, 25)
+		
+	elseif entity.Type == EntityType.ENTITY_STRIDER then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_DART_FLY, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_ROCK_SPIDER and entity.SubType == 2 then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_ARMYFLY, 1)
+		
+	elseif entity.Type == EntityType.ENTITY_TWITCHY then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_GAPER_L2, 0)
+		
+	elseif entity.Type == EntityType.ENTITY_SWARM_SPIDER then
+		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_SWARM, 0)
+	
+	--Widow
+	elseif entity.Type == EntityType.ENTITY_WIDOW and entity.SubType == 0 then
+		local bossPool = { 19, 20, 62, 63, 67, 71, 79, 79, 79, 81, 82, 237, 237, 260, 261, 261, 404, 405, 908 }
+		local bossSubType = { [79] = math.random(0, 2), [237] = math.random(1, 2), [261] = math.random(0, 1) }
+		local newMob = bossPool[ math.random(#bossPool) ]
+		
+		if newMob == 79 or newMob == 237 or newMob == 261 then
+			spawnReplacement(entity, newMob, bossSubType[newMob])
+		else
+			spawnReplacement(entity, newMob, 0)
+		end
+	
+	--The Wretched
+	elseif entity.Type == EntityType.ENTITY_WIDOW and entity.SubType == 1 then
+		local bossPool = { 19, 28, 28, 28, 36, 62, 64, 67, 68, 71, 81, 82, 99, 262, 264, 267, 269, 401, 403, 409, 411, 916 }
+		local newMob = bossPool[ math.random(#bossPool) ]
+		
+		if newMob == 19 or newMob == 67 then
+			spawnReplacement(entity, newMob, 1)
+		elseif newMob == 62 then
+			spawnReplacement(entity, newMob, 2)
+		elseif newMob == 28 then
+			spawnReplacement(entity, newMob, math.random(0,2))
+		else
+			spawnReplacement(entity, newMob, 0)
+		end
+	
+	--Daddy Long Legs or Triachnid
+	elseif entity.Type == EntityType.ENTITY_DADDYLONGLEGS and entity.SubType == 0 then
+		local bossPool = { 62, 65, 66, 68, 69, 71, 74, 81, 82, 266, 410, 413 }
+		local newMob = bossPool[ math.random(#bossPool) ]
+		
+		if newMob == 62 or newMob == 65 or newMob == 68 or newMob == 69 or newMob == 71 then
+			spawnReplacement(entity, newMob, 1)
+		else
+			spawnReplacement(entity, newMob, 0)
+		end
+		
+	elseif entity.Type == EntityType.ENTITY_REAP_CREEP then
+		local bossPool = { 64, 65, 69, 81, 82, 97, 268, 403, 920 }
+		
+		SpawnReplacement(entity, bossPool[ math.random(#bossPool) ], 0)
+	end
+end
+
+local function SpawnReplacement(entity, replacementId, replacementSubType)
+	entity:ToNPC():Morph(replacementId, 0, replacementSubType, entity:ToNPC():GetChampionColorIdx())
+	Isaac.DebugString(entity.Type.."."..entity.SubType.." replaced with "..replacementId.."."..replacementSubType)
+end
+--Arachnophobia end
