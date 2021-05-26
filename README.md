@@ -2,29 +2,29 @@
 The Binding of Isaac Repowered
 
 ## Current content status
-Type|Item name|Singleplayer|Multiplayer|Book of Virtues
-----|---------| -----------|-----------|---------------
-Active|Plush Heart|Done|Done|Testing
-Active|Chaotic D6|Done|Done|Not started yet
-Passive|Arachnophobia|Testing|Testing|N/A
-Active|Colorful Brush|Started|Not started yet|Not started yet
-Active|Creator's Pencil|Not started yet|Not started yet|Not started yet
-Passive|Art of War|Not started yet|Not started yet|N/A
-Passive|Cornstarch Solution|Not started yet|Not started yet|N/A
-Passive|Dichromancy|Not started yet|Not started yet|N/A
-Passive|Leaking Paint Tube|Not started yet|Not started yet|N/A
-Passive|Monochromancy|Not started yet|Not started yet|N/A
-Passive|Mortuus Orchid|Not started yet|Not started yet|N/A
-Familiar|Painted Buddy|Not started yet|Not started yet|N/A
-Passive|Paintjection|Not started yet|Not started yet|N/A
-Passive|RGB Battery|Not started yet|Not started yet|N/A
-Passive|Self Portrait|Not started yet|Not started yet|N/A
-Passive|Wall Eyes|Not started yet|Not started yet|N/A
-Passive|Water Paint|Not started yet|Not started yet|N/A
-Pill|Belladonna Extract|Not started yet|Not started yet|N/A
-Trinket|Correction Fluid|Not started yet|Not started yet|N/A
-Passive|Bolognese|Not started yet|Not started yet|N/A
-Character|Catherine|Not started yet|Not started yet|N/A
+Type|Item name|Sprite|Singleplayer|Multiplayer|Book of Virtues
+----|---------|------|------------|-----------|---------------
+Active|Plush Heart|Done|Done|Done|Testing
+Active|Chaotic D6|Done|Done|Done|Not started yet
+Passive|Arachnophobia|Done|Testing|Testing|N/A
+Active|Colorful Brush|Not Done|Started|Not started yet|Not started yet
+Active|Creator's Pencil|Not Done|Not started yet|Not started yet|Not started yet
+Passive|Art of War|Not Done|Not started yet|Not started yet|N/A
+Passive|Cornstarch Solution|Not Done|Not started yet|Not started yet|N/A
+Passive|Dichromancy|Not Done|Not started yet|Not started yet|N/A
+Passive|Leaking Paint Tube|Not Done|Not started yet|Not started yet|N/A
+Passive|Monochromancy|Not Done|Not started yet|Not started yet|N/A
+Passive|Mortuus Orchid|Not Done|Not started yet|Not started yet|N/A
+Familiar|Painted Buddy|Not Done|Not started yet|Not started yet|N/A
+Passive|Paintjection|Not Done|Not started yet|Not started yet|N/A
+Passive|RGB Battery|Not Done|Not started yet|Not started yet|N/A
+Passive|Self Portrait|Not Done|Not started yet|Not started yet|N/A
+Passive|Wall Eyes|Not Done|Not started yet|Not started yet|N/A
+Passive|Water Paint|Not Done|Not started yet|Not started yet|N/A
+Pill|Belladonna Extract|Not needed|Not started yet|Not started yet|N/A
+Trinket|Correction Fluid|Not Done|Not started yet|Not started yet|N/A
+Passive|Bolognese|Not Done|Not started yet|Not started yet|N/A
+Character|Catherine|Not Done|Not started yet|Not started yet|N/A
 
 ## Item Descriptions
 ### Plush Heart
