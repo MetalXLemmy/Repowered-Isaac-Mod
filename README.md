@@ -4,8 +4,8 @@ The Binding of Isaac Repowered
 ## Current content status
 Type|Item name|Singleplayer|Multiplayer|Book of Virtues
 ----|---------| -----------|-----------|---------------
-Active|Plush Heart|Works|Works|Testing
-Active|Chaotic D6|Works|Works|Not started yet
+Active|Plush Heart|Done|Done|Testing
+Active|Chaotic D6|Done|Done|Not started yet
 Passive|Arachnophobia|Testing|Testing|N/A
 Active|Colorful Brush|Started|Not started yet|Not started yet
 Active|Creator's Pencil|Not started yet|Not started yet|Not started yet
