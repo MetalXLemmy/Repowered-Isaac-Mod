@@ -111,41 +111,116 @@ end)
 --Arachnophobia start
 RepoweredPack.COLLECTIBLE_ARACHNOPHOBIA = Isaac.GetItemIdByName("Arachnophobia")
 
-function RepoweredPack:PickupArachnophobia
+local playerWithArachnophobia = nil
+local spiderItemListRemoved = false
+local spiderItemList = {
+		--Actives
+			Isaac.GetItemIdByName("Box of Spiders"),
+			Isaac.GetItemIdByName("Spider Butt"),
+		--Passives
+			Isaac.GetItemIdByName("Mutant Spider"),
+			Isaac.GetItemIdByName("Spider Bite"),
+			Isaac.GetItemIdByName("Spider Baby"),
+			Isaac.GetItemIdByName("Spider Mod"),
+			Isaac.GetItemIdByName("Keeper's Kin"),
+			Isaac.GetItemIdByName("The Intruder"),
+		
+			Isaac.GetItemIdByName("Daddy Longlegs"),
+			Isaac.GetItemIdByName("Hive Mind"),
+			Isaac.GetItemIdByName("Infestation 2"),
+			Isaac.GetItemIdByName("Juicy Sack"),
+			Isaac.GetItemIdByName("Sissy Longlegs"),
+			Isaac.GetItemIdByName("Bursting Sack"),
+			Isaac.GetItemIdByName("Sticky Bombs"),
+			Isaac.GetItemIdByName("Parasitoid"),
+		--Modded Actives
+		
+		--Modded Passives
+			RepoweredPack.COLLECTIBLE_ARACHNOPHOBIA
+		}
 
-function RepoweredPack:EffectArachnophobia(player)
-    Isaac.DebugString(tostring(player:GetNumBlueSpiders()))
-    local CurrentPool = game:GetItemPool()
-    
-    for k,entity in pairs(entities) do
-      if 	entity.Type == EntityType.ENTITY_PICKUP --checks if entity is pickup
-        and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE --checks if entity is collectible (active or passive)
-        and entity.SubType > 0 --checks if pedestal is not empty
-        and
-      then
-        local newItem = game:GetItemPool():GetCollectible(CurrentPool:GetLastPool() , true, Random(), Constants.DEFAULT_COLLECTIBLE)
-        local pickup = entity:ToPickup() --gets the EntityPickup from the entity "class" to access its methods
-        pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newItem, true) --transforms the existing entity into a new one with the new collectible
+local function PickupArachnophobia()
+	for i = 1, #spiderItemList, 1 do
+		local output = game:GetItemPool():RemoveCollectible(spiderItemList[i])
+		Isaac.DebugString("Removed item "..tostring(spiderItemList[i]).." from item pool: "..tostring(output))
+	end
+	
+	spiderItemListRemoved = true
+end
+
+local function TableContainsValue(value, table)
+	for i, v in ipairs(table) do
+		if value == v then return true end
+	end
+	
+	return false
+end
+
+function RepoweredPack:EffectArachnophobia(pickup, collider)
+	local player = collider:ToPlayer()
+	
+	if not player == nil
+		and pickup.then
+		Isaac.DebugString(tostring(player:GetNumBlueSpiders()))
+		local CurrentPool = game:GetItemPool()
+		
+		if not spiderItemListRemoved then PickupArachnophobia() end
+    		
+		for k,entity in pairs(entities) do
+			if 	entity.Type == EntityType.ENTITY_PICKUP --checks if entity is pickup
+				and entity.Variant == PickupVariant.PICKUP_COLLECTIBLE --checks if entity is collectible (active or passive)
+				and entity.SubType > 0 --checks if pedestal is not empty
+			then
+				if TableContainsValue(entity.SubType, spiderItemList) then
+					local newItem = game:GetItemPool():GetCollectible(CurrentPool:GetLastPool() , true, Random(), Constants.DEFAULT_COLLECTIBLE)
+					Isaac.DebugString("Changed pedestal item "..entity.SubType.." to "..newItem)
+					local pickup = entity:ToPickup() --gets the EntityPickup from the entity "class" to access its methods
+					pickup:Morph(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, newItem, true) --transforms the existing entity into a new one with the new collectible
+				end
+			end
+		end
+		
+		player::AddBlueFlies(player:GetNumBlueSpiders(), player.Position, player)
+		
+		Isaac.DebugString("Changed "..player:GetNumBlueSpiders().." Blue Spiders to Blue Flies")
+		
+		while player:GetNumBlueSpiders() > 0 do
+			player:RemoveBlueSpider()
+		end
+		
+		for i=0,game:GetNumPlayers()-1, 1 do
+			if game:GetPlayer(i):HasCollectible(RepoweredPack.COLLECTIBLE_ARACHNOPHOBIA) then 
+				playerWithArachnophobia = game:GetPlayer(i) 
+			end
 		end
 	end
 end
 
+RepoweredPack:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, RepoweredPack.EffectArachnophobia)
+RepoweredPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, RepoweredPack.ArachnophobiaESpider, EntityType.ENTITY_SPIDER)
+RepoweredPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, RepoweredPack.ArachnophobiaEBigSpider, EntityType.ENTITY_BIGSPIDER)
+RepoweredPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, RepoweredPack.ArachnophobiaENest, EntityType.ENTITY_NEST)
+RepoweredPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, RepoweredPack.ArachnophobiaEBabyLongLegs, EntityType.ENTITY_BABY_LONG_LEGS)
+RepoweredPack:AddCallback(ModCallbacks.MC_NPC_UPDATE, RepoweredPack.ArachnophobiaECrazyLongLegs, EntityType.ENTITY_CRAZY_LONG_LEGS)
 
+function RepoweredPack:ArachnophobiaESpider(entity)
+	if playerWithArachnophobia ~= nil then spawnReplacement(entity:ToNPC(), EntityType.ENTITY_ATTACKFLY, 0) end
+end
 
-RepoweredPack:AddCallback(ModCallbacks.MC_POST_PEFFECT_UPDATE, RepoweredPack.EffectArachnophobia)
+function RepoweredPack:ArachnophobiaEBigSpider(entity)
+	if playerWithArachnophobia ~= nil then spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MOTER, 0) end
+end
 
+function RepoweredPack:ArachnophobiaENest(entity)
+	if playerWithArachnophobia ~= nil then spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MULLIGAN, 0) end
+end
+
+function RepoweredPack:ArachnophobiaEBabyLongLegs(entity)
+	if playerWithArachnophobia ~= nil then spawnReplacement(entity:ToNPC(), EntityType.ENTITY_SWARMER, 0) end
+end
+	
+end
 local function ChangeSpiderEnemiesToFlyEnemies(entity)
-	if entity.Type == EntityType.ENTITY_SPIDER then
-		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_ATTACKFLY, 0)
-    
-	elseif entity.Type == EntityType.ENTITY_BIGSPIDER then
-		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MOTER, 0)
-		
-	elseif entity.Type == EntityType.ENTITY_NEST then
-		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_MULLIGAN, 0)
-		
-	elseif entity.Type == EntityType.ENTITY_BABY_LONG_LEGS then
-		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_SWARMER, 0)
 		
 	elseif entity.Type == EntityType.ENTITY_CRAZY_LONG_LEGS then
 		spawnReplacement(entity:ToNPC(), EntityType.ENTITY_FULL_FLY, 0)
